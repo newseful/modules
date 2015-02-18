@@ -1,0 +1,163 @@
+.newseful-event-container {
+	width: 57%;
+	float: right;
+	color: #1A2326;
+}
+
+.newseful-event-container * {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.newseful-event-block {
+	position: relative;
+	border: 1px solid #D3E6ED;
+	border-radius: 4px;
+	padding: 1.3rem;
+	margin-bottom: 1rem;
+	margin-right: 1rem;
+	margin-left: 1.5rem;
+}
+
+.newseful-event-block::before {
+	content: '';
+	display: block;
+	position: absolute;
+	top: calc(1rem - 1px);
+	left: calc(-1rem - 8px);
+	width: 0;
+	height: 0;
+	border-left: 12px solid transparent;
+	border-top: 7px solid transparent;
+	border-bottom: 7px solid transparent;
+	border-right: 12px solid #D3E6ED;
+}
+
+.newseful-event-block::after {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 1rem;
+	left: calc(-1rem - 4px);
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;
+	border-top: 6px solid transparent;
+	border-bottom: 6px solid transparent;
+	border-right: 10px solid #FFF;
+}
+
+.newseful-timestamp {
+	font-family: 'inconsolata', monospace;
+	color: #799099;
+	font-size: 0.75rem;
+	text-transform: uppercase;
+}
+
+.newseful-content {
+	font-family: "Lyon Text NYT", serif;
+	font-size: 1rem;
+	line-height: 1.3888888;
+	margin-top: 1rem;
+}
+
+.newseful-timeline-container {
+	width: 13%;
+	float: right;
+	overflow: visible;
+}
+
+.newseful-events-timeline line {
+	stroke : #40C693;
+	stroke-width: 2;
+}
+
+.newseful-events-timeline circle {
+	stroke : #FFF;
+	stroke-width: 3;
+	fill: #40C693;
+	stroke-location: outside;
+}
+
+.newseful-commentary-timeline circle {
+	stroke : #FFF;
+	stroke-width: 3;
+	fill: #1A2326;
+	stroke-location: outside;
+}
+
+.newseful-commentary-timeline line {
+	stroke : #1A2326;
+	stroke-width: 2;
+}
+
+.newseful-commentary-container {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 30%;
+	float: left;
+	position: relative;
+	padding-left: 1rem;
+}
+
+.newseful-commentary-container * {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.newseful-commentary-block {
+	position: absolute;
+	background: #1A2326;
+	color: #FFF;
+	font-size: .75rem;
+	padding: .5rem;
+	border-radius: 4px;
+	right: 1.5rem;
+	transform: translate(0,.7rem);
+	z-index: 1;
+}
+
+.newseful-commentary-block:hover {
+	z-index: 2;
+}
+
+.newseful-commentary-block::after {
+	content:'';
+	display: block;
+	width: 0;
+	height: 0;
+	border-right: 7px solid transparent;
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-left: 7px solid #1A2326;
+	position: absolute;
+	top: .6rem;
+	right: -14px;
+}
+
+.newseful-commentary-title {
+	font-family:'Atlas Grotesk', sans-serif;
+}
+
+.newseful-date-marker {
+	font-family: 'Inconsolata', monospace;
+	fill: #83AFBA;
+	font-size: .75rem;
+}
+
+.newseful-range-circle {
+	fill: #FFF;
+	stroke : #D3E6ED;
+	stroke-width: 2;
+}
+
+.newseful-date-marker-bg {
+	fill: #FFF;
+	stroke: #83AFBA;
+	stroke-width: 1;
+	transform: translate(0,-50%);
+}
+.newseful-date-timeline line {
+	stroke : #D3E6ED;
+	stroke-width: 2;
+}
