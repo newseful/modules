@@ -2,6 +2,7 @@
 	width: 57%;
 	float: right;
 	color: #1A2326;
+	position: relative;
 }
 
 .newseful-event-container * {
@@ -224,4 +225,41 @@
 .newseful-date-timeline line {
 	stroke : #D3E6ED;
 	stroke-width: 2;
+}
+
+.newseful-timeline-label {
+	position: absolute;
+	top: -2rem;
+	display: inline-block;
+	padding: .25rem;
+	background: #D3E6ED;
+	color: #83AFBA;
+	font-family: 'Atlas Grotesk', sans-serif;
+	font-size: .75rem;
+}
+
+.newseful-timeline-label::after {
+	content: '';
+	height: 0;
+	width: 0;
+	border: 5px solid #D3E6ED;
+	display: block;
+	position: absolute;
+	bottom: -10px;
+}
+
+.newseful-event-container .newseful-timeline-label::after {
+	left: 0;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+}
+
+.newseful-commentary-container .newseful-timeline-label::after {
+	right : 0;
+	border-left: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+}
+
+.newseful-commentary-container .newseful-timeline-label {
+	right: 0;
 }

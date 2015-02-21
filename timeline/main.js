@@ -161,6 +161,10 @@ var NewsefulTimelineView = function(options, dataURL) {
 			var eventContainer = d3.select(this.container).append('div')
 				.classed('newseful-event-container', true);
 
+			eventContainer.append('div')
+				.classed('newseful-timeline-label', true)
+				.text('Events');
+
 			this.eventBlock = eventContainer.selectAll('.newseful-event-block')
 				.data(this.data.events)
 				.enter()
@@ -187,6 +191,10 @@ var NewsefulTimelineView = function(options, dataURL) {
 
 			var commentaryContainer = d3.select(this.container).append('div')
 				.classed('newseful-commentary-container', true)
+
+			commentaryContainer.append('div')
+				.classed('newseful-timeline-label', true)
+				.text('Commentary');
 
 			this.commentaryBlock = commentaryContainer.selectAll('.newseful-commentary-block')
 				.data(this.data.commentary)
@@ -271,13 +279,13 @@ var NewsefulTimelineView = function(options, dataURL) {
 			dateTimeline.append('line')
 				.attr('x1', '50%')
 				.attr('x2', '50%')
-				.attr('y1', 0)
+				.attr('y1', -45)
 				.attr('y2', this.data.events[this.data.events.length - 1].offset );
 
 			dateTimeline.append('circle')
 				.classed('newseful-range-circle', true)
 				.attr('cx', '50%')
-				.attr('cy', 0)
+				.attr('cy', -45)
 				.attr('r', 10);
 
 			dateTimeline.append('circle')
@@ -308,6 +316,8 @@ var NewsefulTimelineView = function(options, dataURL) {
 					.attr('text-anchor', 'middle')
 					.attr('alignment-baseline', 'middle')
 					.text(function(d) { return _.shortDateFormat(d) });
+
+
 
 		},
 
