@@ -34,9 +34,9 @@ var NewsefulTimelineView = function(options, dataURL) {
 
 		container : options.container || null,
 
-		timeStampFormat : d3.time.format('%a %b %d %Y %H:%M%p'),
+		timeStampFormat : d3.time.format('%a %b %d %Y %I:%M%p'),
 		shortDateFormat : d3.time.format('%b %d'),
-		abbreviatedTimeStampFormat : d3.time.format('%H:%M%p %b %d'),
+		abbreviatedTimeStampFormat : d3.time.format('%I:%M%p %b %d'),
 
 		/****************************************************************/
 		/****************************************************************/

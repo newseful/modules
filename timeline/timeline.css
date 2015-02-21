@@ -108,12 +108,13 @@
 .newseful-commentary-block {
 	position: absolute;
 	background: #1A2326;
+	border: 1px solid #FFF;
 	color: #FFF;
 	font-size: .75rem;
 	padding: .5rem;
 	border-radius: 4px;
 	right: 1.5rem;
-	transform: translate(0,.7rem);
+	transform: translate(0,.5rem);
 	z-index: 1;
 	margin-left: 1.5rem;
 }
@@ -136,13 +137,17 @@
 	font-family:'Atlas Grotesk', sans-serif;
 	display: block;
 	margin-left: -.5rem;
-	background: #87793F;
+	background: #B09E52;
 	padding: .5rem;
 	margin-right: -.5rem;
 	margin-bottom: -.5rem;
 	margin-top: .5rem;
 	color: #F2E7B8;
 	text-decoration: none;
+}
+
+.newseful-commentary-content .newseful-source-button:hover {
+	background: #87793F;
 }
 
 .newseful-commentary-block::after {
@@ -155,7 +160,7 @@
 	border-bottom: 5px solid transparent;
 	border-left: 7px solid #1A2326;
 	position: absolute;
-	top: .6rem;
+	top: .55rem;
 	right: -14px;
 }
 
@@ -167,9 +172,9 @@
 	border-right: 7px solid transparent;
 	border-top: 5px solid transparent;
 	border-bottom: 5px solid transparent;
-	border-left: 7px solid #1A2326;
+	border-left: 7px solid #FFF;
 	position: absolute;
-	top: .6rem;
+	top: .55rem;
 	right: -14px;
 }
 
