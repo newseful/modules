@@ -36,6 +36,7 @@ var NewsefulTimelineView = function(options, dataURL) {
 
 		timeStampFormat : d3.time.format('%a %b %d %Y %H:%M%p'),
 		shortDateFormat : d3.time.format('%b %d'),
+		abbreviatedTimeStampFormat : d3.time.format('%H:%M%p %b %d'),
 
 		/****************************************************************/
 		/****************************************************************/
@@ -197,6 +198,22 @@ var NewsefulTimelineView = function(options, dataURL) {
 			this.commentaryBlock.append('p')
 				.classed('newseful-commentary-title', true)
 				.text(function(d) { return d.title });
+
+			var commentaryContent = this.commentaryBlock.append('div')
+				.classed('newseful-commentary-content', true)
+			
+			commentaryContent.append('p')
+				.text(function(d) { return d.text });
+
+			commentaryContent.append('p')
+				.classed('newseful-timestamp', true)
+				.text(function(d) { return _.abbreviatedTimeStampFormat( d.time ) });
+
+			commentaryContent.filter(function(d) { return !!d.source })
+				.append('a')
+				.classed('newseful-source-button', true)
+				.attr('href', function(d){ return d.source })
+				.text('Source');
 		},
 
 		renderTimeline : function() {

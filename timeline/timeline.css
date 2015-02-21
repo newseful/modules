@@ -115,10 +115,34 @@
 	right: 1.5rem;
 	transform: translate(0,.7rem);
 	z-index: 1;
+	margin-left: 1.5rem;
 }
 
-.newseful-commentary-block:hover {
-	z-index: 2;
+.newseful-commentary-content {
+	display: none;
+	margin-top: .7rem;
+}
+
+.newseful-commentary-content > p {
+	line-height: 1.38888888;
+}
+
+.newseful-commentary-content .newseful-timestamp {
+	color: #87793F;
+	margin-top: .5rem;
+}
+
+.newseful-commentary-content .newseful-source-button {
+	font-family:'Atlas Grotesk', sans-serif;
+	display: block;
+	margin-left: -.5rem;
+	background: #87793F;
+	padding: .5rem;
+	margin-right: -.5rem;
+	margin-bottom: -.5rem;
+	margin-top: .5rem;
+	color: #F2E7B8;
+	text-decoration: none;
 }
 
 .newseful-commentary-block::after {
@@ -135,8 +159,43 @@
 	right: -14px;
 }
 
+.newseful-commentary-block::before {
+	content:'';
+	display: block;
+	width: 0;
+	height: 0;
+	border-right: 7px solid transparent;
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-left: 7px solid #1A2326;
+	position: absolute;
+	top: .6rem;
+	right: -14px;
+}
+
 .newseful-commentary-title {
 	font-family:'Atlas Grotesk', sans-serif;
+}
+
+.newseful-commentary-block:hover {
+	z-index: 2;
+	background: #F2E7B8;
+	border: 1px solid #B09E52;
+	color: #87793F;
+	width: calc(100% - 2.5rem);
+}
+
+.newseful-commentary-block:hover::before {
+	border-left: 7px solid #B09E52;
+}
+
+.newseful-commentary-block:hover::after {
+	right: -12px;
+	border-left: 7px solid #F2E7B8;
+}
+
+.newseful-commentary-block:hover .newseful-commentary-content {
+	display: block;
 }
 
 .newseful-date-marker {
