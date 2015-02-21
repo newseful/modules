@@ -293,6 +293,12 @@ var NewsefulTimelineView = function(options, dataURL) {
 				.attr('cx', '50%')
 				.attr('cy', this.data.events[this.data.events.length - 1].offset)
 				.attr('r', 10)
+
+			dateTimeline.append('circle')
+				.classed('newseful-activity-circle', true)
+				.attr('cx', '50%')
+				.attr('cy', -45)
+				.attr('r', 5);
 			
 			dateTimeline.selectAll('.newseful-date-marker-bg')
 				.data(this.data.daysInRange)

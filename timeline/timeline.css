@@ -1,3 +1,11 @@
+@-webkit-keyframes pulse {
+	0% { opacity : 1; }
+	50% { opacity : 1; }
+	70% { opacity: .5; }
+	80% { opacity : .5; }
+	100% { opacity : 1; }
+}
+
 .newseful-event-container {
 	width: 57%;
 	float: right;
@@ -90,6 +98,7 @@
 .newseful-commentary-timeline line {
 	stroke : #1A2326;
 	stroke-width: 2;
+	opacity: .5;
 }
 
 .newseful-commentary-container {
@@ -130,7 +139,7 @@
 }
 
 .newseful-commentary-content .newseful-timestamp {
-	color: #87793F;
+	color: #B09E52;
 	margin-top: .5rem;
 }
 
@@ -187,7 +196,7 @@
 	z-index: 2;
 	background: #F2E7B8;
 	border: 1px solid #B09E52;
-	color: #87793F;
+	color: #B09E52;
 	width: calc(100% - 2.5rem);
 }
 
@@ -214,6 +223,11 @@
 	fill: #FFF;
 	stroke : #D3E6ED;
 	stroke-width: 2;
+}
+
+.newseful-activity-circle {
+	fill : #DB8D61;
+	-webkit-animation: pulse 2s infinite;
 }
 
 .newseful-date-marker-bg {
