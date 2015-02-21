@@ -8,7 +8,7 @@
 	<link href="timeline.css" rel="stylesheet">
 
 	<style>
-		#timeline-container {
+		#timeline-container, #second-timeline-container {
 			width: 50%;
 			margin-left: 20%;
 			margin-right: 30%;
@@ -30,6 +30,29 @@
 
 </div>
 
+<div id="second-timeline-container">
+
+</div>
+
 <script src="main.js"></script>
+<script>
+
+var opts = {
+	container : document.querySelector('#timeline-container')
+}
+
+var data = 'https://docs.google.com/spreadsheets/d/1Tlcgk8CrZrx-4XnVlirEO2eRYwNbk5B96Rkv879VGZ8/pubhtml?gid=0&single=true'
+
+var timeline = new NewsefulTimelineView(opts, data);
+
+var opts2 = {
+	container : document.querySelector('#second-timeline-container')
+}
+
+var data2 = 'https://docs.google.com/spreadsheets/d/16gTvMe5LJUJ1KBxIc4wBUIObwUTZvUOPav-V50nKR5I/pubhtml';
+
+var timeline2 = new NewsefulTimelineView(opts2, data2);
+
+</script>
 
 </body>

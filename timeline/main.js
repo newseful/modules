@@ -343,11 +343,3 @@ var NewsefulTimelineView = function(options, dataURL) {
 
 	return ntv.init();
 }
-
-var opts = {
-	container : document.querySelector('#timeline-container')
-}
-
-var data = 'https://docs.google.com/spreadsheets/d/1Tlcgk8CrZrx-4XnVlirEO2eRYwNbk5B96Rkv879VGZ8/pubhtml?gid=0&single=true'
-
-var timeline = new NewsefulTimelineView(opts, data);
