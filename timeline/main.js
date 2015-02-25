@@ -38,6 +38,8 @@ var NewsefulTimelineView = function(options, dataURL) {
 		shortDateFormat : d3.time.format('%b %d'),
 		abbreviatedTimeStampFormat : d3.time.format('%I:%M%p %b %d'),
 
+		chronological : options.chronological || false,
+
 		/****************************************************************/
 		/****************************************************************/
 		/****************************************************************/
@@ -59,7 +61,13 @@ var NewsefulTimelineView = function(options, dataURL) {
 				return 0;
 			},
 			sortChronological : function(a,b) {
-				return a.time.getTime() > b.time.getTime();
+				if (a.time.getTime() > b.time.getTime())
+					return 1;
+
+				if (a.time.getTime() < b.time.getTime())
+					return -1;
+
+				return 0;
 			},
 			elementOffset : function(el, offsetParent) {
 				return el.getBoundingClientRect().top - offsetParent.getBoundingClientRect().top;
@@ -95,8 +103,8 @@ var NewsefulTimelineView = function(options, dataURL) {
 				data[i].is_event ? this.data.events.push(data[i]) : this.data.commentary.push(data[i]);
 			}
 
-			this.data.events.sort(this.helpers.sortReverseChronological);
-			this.data.commentary.sort(this.helpers.sortReverseChronological);
+			this.data.events.sort(this.sortFunction);
+			this.data.commentary.sort(this.sortFunction);
 
 			this.data.rangeMin = new Date(this.data.rangeMin);
 			this.data.rangeMax = new  Date(this.data.rangeMax);
@@ -232,48 +240,7 @@ var NewsefulTimelineView = function(options, dataURL) {
 				.attr('width', '10%')
 				.style('margin-top', '24px')
 
-			var eventsTimeline = timelineContainer.append('g')
-				.classed('newseful-events-timeline', true)
-
-			// Only draw the actual line if there's more than one event
-			if (this.data.events.length > 1) {
-				eventsTimeline.append('line')
-					.attr('x1', '100%')
-					.attr('x2', '100%')
-					.attr('y1', this.data.events[0].offset)
-					.attr('y2', this.data.events[this.data.events.length - 1].offset);
-			}
-
-			eventsTimeline.selectAll('.node')
-				.data(this.data.events)
-				.enter()
-					.append('circle')
-					.classed('node', true)
-					.attr('cx', '100%')
-					.attr('cy', function(d) { return d.offset })
-					.attr('r', 5);
-
-			var commentaryTimeline = timelineContainer.append('g')
-				.classed('newseful-commentary-timeline', true);
-
-			if (this.data.commentary.length > 1) {
-				commentaryTimeline.append('line')
-					.attr('x1', '0')
-					.attr('x2', '0')
-					.attr('y1', this.data.commentary[0].offset)
-					.attr('y2', this.data.commentary[this.data.commentary.length - 1].offset);
-			}
-
-			commentaryTimeline.selectAll('.node')
-				.data(this.data.commentary)
-				.enter()
-					.append('circle')
-					.classed('node', true)
-					.attr('cx', 0)
-					.attr('cy', function(d) { return d.offset })
-					.attr('r', 5);
-
-			var dateTimeline = timelineContainer.append('g')
+						var dateTimeline = timelineContainer.append('g')
 				.classed('newseful-date-timeline', true)
 
 			dateTimeline.append('line')
@@ -305,11 +272,11 @@ var NewsefulTimelineView = function(options, dataURL) {
 				.enter()
 					.append('rect')
 					.classed('newseful-date-marker-bg', true)
-					.attr('x', '15%')
+					.attr('x', '10%')
 					.attr('y', function(d) { return d.offset })
 					.attr('rx', 4)
 					.attr('ry', 4)
-					.attr('width', '70%')
+					.attr('width', '80%')
 					.attr('height', '24')
 
 			dateTimeline.selectAll('.newseful-date-marker')
@@ -323,7 +290,46 @@ var NewsefulTimelineView = function(options, dataURL) {
 					.attr('alignment-baseline', 'middle')
 					.text(function(d) { return _.shortDateFormat(d) });
 
+			var eventsTimeline = timelineContainer.append('g')
+				.classed('newseful-events-timeline', true)
 
+			// Only draw the actual line if there's more than one event
+			if (this.data.events.length > 1) {
+				eventsTimeline.append('line')
+					.attr('x1', '0')
+					.attr('x2', '0')
+					.attr('y1', this.data.events[0].offset)
+					.attr('y2', this.data.events[this.data.events.length - 1].offset);
+			}
+
+			eventsTimeline.selectAll('.node')
+				.data(this.data.events)
+				.enter()
+					.append('circle')
+					.classed('node', true)
+					.attr('cx', '0')
+					.attr('cy', function(d) { return d.offset })
+					.attr('r', 5);
+
+			var commentaryTimeline = timelineContainer.append('g')
+				.classed('newseful-commentary-timeline', true);
+
+			if (this.data.commentary.length > 1) {
+				commentaryTimeline.append('line')
+					.attr('x1', '100%')
+					.attr('x2', '100%')
+					.attr('y1', this.data.commentary[0].offset)
+					.attr('y2', this.data.commentary[this.data.commentary.length - 1].offset);
+			}
+
+			commentaryTimeline.selectAll('.node')
+				.data(this.data.commentary)
+				.enter()
+					.append('circle')
+					.classed('node', true)
+					.attr('cx', '100%')
+					.attr('cy', function(d) { return d.offset })
+					.attr('r', 5);
 
 		},
 
@@ -336,6 +342,8 @@ var NewsefulTimelineView = function(options, dataURL) {
 			};
 
 			Tabletop.init(tTopOpts);
+
+			this.sortFunction = options.chronological ? this.helpers.sortChronological : this.helpers.sortReverseChronological;
 
 			return this;
 		}
