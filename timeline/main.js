@@ -296,8 +296,8 @@ var NewsefulTimelineView = function(options, dataURL) {
 			// Only draw the actual line if there's more than one event
 			if (this.data.events.length > 1) {
 				eventsTimeline.append('line')
-					.attr('x1', '0')
-					.attr('x2', '0')
+					.attr('x1', '100%')
+					.attr('x2', '100%')
 					.attr('y1', this.data.events[0].offset)
 					.attr('y2', this.data.events[this.data.events.length - 1].offset);
 			}
@@ -307,7 +307,7 @@ var NewsefulTimelineView = function(options, dataURL) {
 				.enter()
 					.append('circle')
 					.classed('node', true)
-					.attr('cx', '0')
+					.attr('cx', '100%')
 					.attr('cy', function(d) { return d.offset })
 					.attr('r', 5);
 
@@ -316,8 +316,8 @@ var NewsefulTimelineView = function(options, dataURL) {
 
 			if (this.data.commentary.length > 1) {
 				commentaryTimeline.append('line')
-					.attr('x1', '100%')
-					.attr('x2', '100%')
+					.attr('x1', '0')
+					.attr('x2', '0')
 					.attr('y1', this.data.commentary[0].offset)
 					.attr('y2', this.data.commentary[this.data.commentary.length - 1].offset);
 			}
@@ -327,7 +327,7 @@ var NewsefulTimelineView = function(options, dataURL) {
 				.enter()
 					.append('circle')
 					.classed('node', true)
-					.attr('cx', '100%')
+					.attr('cx', 0)
 					.attr('cy', function(d) { return d.offset })
 					.attr('r', 5);
 
