@@ -1,0 +1,132 @@
+.newseful-annotation-container {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.newseful-annotation-block {
+	display:none;
+	-webkit-transform: translate(-50%, -110%);
+	transform: translate(-50%, -110%);
+	width: 250px;
+	top: 0;
+	left: 0;
+	position: absolute;
+	background: #404E54;
+	border: 3px solid #404E54;
+	border-radius: 4px;
+	opacity: 0;
+	color: #FFF;
+}
+
+.newseful-annotation-block.flip {
+	-webkit-transform: translate(-50%, 20%);
+	transform: translate(-50%, 20%);
+}
+
+.newseful-annotation-block::before {
+	content:'';
+	width: 0;
+	height: 0;
+	position: absolute;
+	border:8px solid transparent;
+	border-top: 8px solid #404E54;
+	top: 99.999999%;
+	left: 50%;
+	-webkit-transform:translate(-50%,0);
+	transform:translate(-50%,0);
+	z-index: -1;
+}
+
+.newseful-annotation-block.flip::before {
+	top: -16px;
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid #404E54;
+}
+
+.newseful-annotation-contents > *:not(img) {
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
+
+.newseful-annotation-contents {
+	overflow: hidden;
+	border-radius: 2px;
+}
+
+.newseful-annotation-block p {
+	font-family: 'Atlas Grotesk';
+	font-size: .75rem;
+	color: #FFF;
+	padding-top: 0;
+	padding-bottom: .5rem;
+}
+
+.newseful-annotation-block h2 {
+	font-family: 'Atlas Grotesk', sans-serif;
+	color: #FFF;
+	margin-bottom: .5rem;
+}
+
+.newseful-annotation-block h3 {
+	font-family: 'Atlas Grotesk', sans-serif;
+	font-size: .75rem;
+	text-transform: uppercase;
+	color: #D3E6ED;
+	margin-bottom: .5rem;
+}
+
+.newseful-annotation-block dl {
+	font-family: 'inconsolata', monospace;
+	font-size: .75rem;
+	text-transform: uppercase;
+}
+
+.newseful-annotation-block dl div {
+	display: inline-block;
+	background: #87793F;
+	border: 1px solid #B09E52;
+	border-radius: 1rem;
+	padding: 0 .5rem;
+	margin-right: .25rem;
+}
+
+.newseful-annotation-block dl dt {
+	color: #B09E52;
+}
+
+.newseful-annotation-block dl dd {
+	color: #F2E7B8;
+}
+
+.newseful-annotation-block dl dt::after {
+	content:': ';
+}
+
+.newseful-annotation-block dl div > * {
+	display: inline;
+}
+
+.newseful-annotation-block img {
+	max-width: 100%;
+	display: block;
+}
+
+.newseful-annotation-contents > *:first-child:not(img) {
+	padding-top: 1rem;
+}
+
+.newseful-annotation-contents > *:last-child:not(img) {
+	padding-bottom: 1rem;
+}
+
+.newseful-annotation-container:hover .newseful-annotation-block {
+	-webkit-transform: translate(-50%, -120%);
+	transform: translate(-50%, -120%);
+	opacity: 1;
+	display: block;
+}
+
+.newseful-annotation-container:hover .newseful-annotation-block.flip {
+	-webkit-transform: translate(-50%, 20%);
+	transform: translate(-50%, 20%);
+}
