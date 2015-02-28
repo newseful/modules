@@ -12,15 +12,13 @@ var Parser = function() {
 		return this.split('_').join(' ');
 	}
 
-
-
 	NodeList.prototype.map = Array.prototype.map;
 
 	this.openingExpression = '((';
 
 	this.closingExpression = '))';
 
-	this.reservedKeywords = ['name','title','description','location'];
+	this.reservedKeywords = ['name','title','description','location','image'];
 
 	this.cut = function(str) {
 		return str.split('; ')
@@ -70,6 +68,12 @@ var Parser = function() {
 	}
 
 	this.renderActorAnnotationContents = function(data) {
+		var img = document.createElement('div');
+		img.classList.add('newseful-annotation-image');
+		var imgSrc = document.createElement('img');
+		imgSrc.setAttribute('src', data.image || '');
+		img.appendChild(imgSrc)
+
 		var name = document.createElement('h2');
 		name.innerHTML = data.name;
 
@@ -83,13 +87,16 @@ var Parser = function() {
 
 		var container = document.createElement('div')
 		container.classList.add('newseful-annotation-contents');
+
+		if (data.image)
+			container.appendChild(img);
+
 		container.appendChild(name)
 		container.appendChild(title)
 		container.appendChild(description);
 
 		if (genericProperties.children.length > 0)
 			container.appendChild(genericProperties);
-
 
 		return container;
 	}
@@ -215,10 +222,9 @@ var Parser = function() {
 				if (block.getBoundingClientRect().top < 10) {
 					block.classList.add('flip');
 				}
-
 			});
 
-			el.addEventListener('mouseout', function(e) {
+			el.addEventListener('mouseleave', function(e) {
 				this.classList.remove('active');
 				this.querySelector('.newseful-annotation-block').classList.remove('flip');
 			});

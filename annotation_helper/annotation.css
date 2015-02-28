@@ -11,11 +11,11 @@
 	top: 0;
 	left: 0;
 	position: absolute;
-	background: #404E54;
-	border: 3px solid #404E54;
+	background: #D3E6ED;
+	border: 1px solid #83AFBA;
 	border-radius: 4px;
 	opacity: 0;
-	color: #FFF;
+	color:  #404E54;
 }
 
 .newseful-annotation-block.flip {
@@ -29,8 +29,22 @@
 	height: 0;
 	position: absolute;
 	border:8px solid transparent;
-	border-top: 8px solid #404E54;
-	top: 99.999999%;
+	border-top: 8px solid #83AFBA;
+	bottom: -16px;
+	left: 50%;
+	-webkit-transform:translate(-50%,0);
+	transform:translate(-50%,0);
+	z-index: -1;
+}
+
+.newseful-annotation-block::after {
+	content:'';
+	width: 0;
+	height: 0;
+	position: absolute;
+	border:8px solid transparent;
+	border-top: 8px solid #D3E6ED;
+	bottom: -15px;
 	left: 50%;
 	-webkit-transform:translate(-50%,0);
 	transform:translate(-50%,0);
@@ -39,8 +53,16 @@
 
 .newseful-annotation-block.flip::before {
 	top: -16px;
+	bottom: auto;
 	border-top: 8px solid transparent;
-	border-bottom: 8px solid #404E54;
+	border-bottom: 8px solid #83AFBA;
+}
+
+.newseful-annotation-block.flip::after {
+	top: -15px;
+	bottom: auto;
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid #D3E6ED;
 }
 
 .newseful-annotation-contents > *:not(img) {
@@ -50,29 +72,32 @@
 
 .newseful-annotation-contents {
 	overflow: hidden;
-	border-radius: 2px;
+	border-radius: 3px;
 }
 
 .newseful-annotation-block p {
 	font-family: 'Atlas Grotesk';
-	font-size: .75rem;
-	color: #FFF;
+	font-size: .875rem;
+	color: #404E54;
 	padding-top: 0;
 	padding-bottom: .5rem;
 }
 
 .newseful-annotation-block h2 {
 	font-family: 'Atlas Grotesk', sans-serif;
-	color: #FFF;
+	color: #404E54;
 	margin-bottom: .5rem;
+	font-weight: 400;
 }
 
 .newseful-annotation-block h3 {
 	font-family: 'Atlas Grotesk', sans-serif;
 	font-size: .75rem;
 	text-transform: uppercase;
-	color: #D3E6ED;
+	color: #799099;
 	margin-bottom: .5rem;
+	font-weight: 500;
+	letter-spacing: 1px;
 }
 
 .newseful-annotation-block dl {
@@ -83,19 +108,19 @@
 
 .newseful-annotation-block dl div {
 	display: inline-block;
-	background: #87793F;
-	border: 1px solid #B09E52;
+	background: #83AFBA;
+	border: 1px solid #63848C;
 	border-radius: 1rem;
 	padding: 0 .5rem;
 	margin-right: .25rem;
 }
 
 .newseful-annotation-block dl dt {
-	color: #B09E52;
+	color: #D3E6ED;
 }
 
 .newseful-annotation-block dl dd {
-	color: #F2E7B8;
+	color: #FFF;
 }
 
 .newseful-annotation-block dl dt::after {
