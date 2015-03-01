@@ -30,7 +30,7 @@ var moduleRoutes = [
 var currentModule;
 
 var urlForSlug = function(s) {
-	return s + 'index.html';
+	return backURL + s + 'index.html';
 }
 
 moduleRoutes.map(function(m){
