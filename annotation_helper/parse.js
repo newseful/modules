@@ -118,7 +118,19 @@ var Parser = function() {
 	}
 
 	this.renderDefaultAnnotationContents = function(data) {
-		// return general info contents
+		var container = document.createElement('div');
+		container.classList.add('newseful-annotation-contents');
+
+		var title = document.createElement('h2');
+		title.innerHTML = data.name;
+
+		var description = document.createElement('p');
+		description.innerHTML = data.description;
+
+		container.appendChild(title);
+		container.appendChild(description);
+
+		return container;
 	}
 
 	this.annotationForExpression = function(exp) {
