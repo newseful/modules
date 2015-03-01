@@ -7,7 +7,8 @@ console.log(window.location.pathname.split('/').pop())
 var backURL = window.location.pathname.split('/');
 backURL.pop();
 backURL.pop();
-backURL = '/' + backURL.join('/');
+backURL = backURL.length > 1 ? backURL.join('/') : '/';
+
 var backLink = document.createElement('a');
 backLink.setAttribute('href', backURL);
 backLink.innerHTML = '\u2190';
