@@ -2,8 +2,14 @@ var modulenav = document.createElement('div');
 modulenav.classList.add('newseful-module-nav');
 var title = document.createElement('h1');
 
+console.log(window.location.pathname.split('/').pop())
+
+var backURL = window.location.pathname.split('/');
+backURL.pop();
+backURL.pop();
+backURL = '/' + backURL.join('/');
 var backLink = document.createElement('a');
-backLink.setAttribute('href', '/');
+backLink.setAttribute('href', backURL);
 backLink.innerHTML = '\u2190';
 title.appendChild(backLink);
 
