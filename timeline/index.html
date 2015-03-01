@@ -6,8 +6,13 @@
 	<script src="tabletop.js"></script>
 	<link href="reset.css" rel="stylesheet">
 	<link href="timeline.css" rel="stylesheet">
+	<link href="../assets/module-nav.css" rel="stylesheet">
 
 	<style>
+		body > p:first-of-type {
+			padding-top: 4rem;
+		}
+
 		body > p, #timeline-container, #second-timeline-container {
 			width: 50%;
 			margin-left: 20%;
@@ -70,5 +75,7 @@ var data2 = 'https://docs.google.com/spreadsheets/d/16gTvMe5LJUJ1KBxIc4wBUIObwUT
 var timeline2 = new NewsefulTimelineView(opts2, data2);
 
 </script>
+
+<script src="../assets/module-nav.js"></script>
 
 </body>
