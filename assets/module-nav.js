@@ -2,8 +2,6 @@ var modulenav = document.createElement('div');
 modulenav.classList.add('newseful-module-nav');
 var title = document.createElement('h1');
 
-console.log(window.location.pathname.split('/').pop())
-
 var backURL = window.location.pathname.split('/');
 backURL.pop();
 backURL.pop();

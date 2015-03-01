@@ -59,7 +59,9 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 <script>
 
 var opts = {
-	container : document.querySelector('#timeline-container')
+	container : document.querySelector('#timeline-container'),
+	numTicksPerSegment : 10,
+	ticks: true
 }
 
 var data = 'https://docs.google.com/spreadsheets/d/1Tlcgk8CrZrx-4XnVlirEO2eRYwNbk5B96Rkv879VGZ8/pubhtml?gid=0&single=true'
@@ -68,6 +70,7 @@ var timeline = new NewsefulTimelineView(opts, data);
 
 var opts2 = {
 	container : document.querySelector('#second-timeline-container'),
+	ticks : false,
 }
 
 var data2 = 'https://docs.google.com/spreadsheets/d/16gTvMe5LJUJ1KBxIc4wBUIObwUTZvUOPav-V50nKR5I/pubhtml';

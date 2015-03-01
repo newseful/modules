@@ -38,7 +38,11 @@ var NewsefulTimelineView = function(options, dataURL) {
 		shortDateFormat : d3.time.format('%b %d'),
 		abbreviatedTimeStampFormat : d3.time.format('%I:%M%p %b %d'),
 
+		numTicksPerSegment : options.numTicksPerSegment || 5,
+
 		chronological : options.chronological || false,
+
+		ticks : options.ticks || false,
 
 		/****************************************************************/
 		/****************************************************************/
@@ -232,6 +236,58 @@ var NewsefulTimelineView = function(options, dataURL) {
 				.text('Source');
 		},
 
+		addTicksForTimeline : function(timeline) {
+			var _ = this;
+			var timelineTicksData = d3.range(this.data.daysInRange.length + 1);
+			timelineTicksData = timelineTicksData.map(function(d) {
+				return {
+					index : d,
+					data : d3.range(_.numTicksPerSegment)
+				}
+			});
+
+			var timelineTicksGroup = timeline.selectAll('.ticks')
+				.data(timelineTicksData)
+				.enter()
+					.append('g')
+					.classed('ticks', true)
+					.each(function(data, index) {
+						console.log(data, index);
+
+						d3.select(this).selectAll('.tick')
+							.data(data.data)
+							.enter()
+								.append('line')
+								.classed('tick', true)
+								.attr('x1', '35%')
+								.attr('x2', '65%')
+								.attr('y1', function(d, i) {
+									var pad = 20;
+
+									var startPos = (function() {
+										if (index == 0)
+											return -45;
+
+										return _.offsetForTime(new Date(_.data.daysInRange[index - 1]).getTime());
+									})();
+
+									var endPos = (function() {
+										if (index == timelineTicksData.length - 1)
+											return _.data.events[_.data.events.length - 1].offset;
+
+										return _.offsetForTime(new Date( _.data.daysInRange[index].getTime() ));
+									})();
+
+									var length = (endPos - startPos) - (pad * 2);
+
+									var position = startPos + pad + ((length / (_.numTicksPerSegment - 1)) * i);
+
+									return position;
+								})
+								.attr('y2', function(d) { return this.getAttribute('y1') });
+					})
+		},
+
 		renderTimeline : function() {
 			var _ = this;
 			var eventContainer = d3.select('.newseful-event-container');
@@ -242,6 +298,9 @@ var NewsefulTimelineView = function(options, dataURL) {
 
 						var dateTimeline = timelineContainer.append('g')
 				.classed('newseful-date-timeline', true)
+
+			if (this.ticks)
+				this.addTicksForTimeline(dateTimeline);
 
 			dateTimeline.append('line')
 				.attr('x1', '50%')
