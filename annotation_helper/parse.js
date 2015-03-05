@@ -1,10 +1,25 @@
 var NFAnnotations = function(selector) {
 
+	/////////////////////////////////////////////////////////////////
+
+	//                         CONSTANTS                           //
+
+	/////////////////////////////////////////////////////////////////
+
 	this.openingExpression = '((';
 
 	this.closingExpression = '))';
 
 	this.reservedKeywords = ['name','title','description','location','image'];
+
+
+	/////////////////////////////////////////////////////////////////
+
+	//                         EXTENSIONS                          //
+
+	/////////////////////////////////////////////////////////////////
+
+
 
 	String.prototype.strip = String.prototype.strip || function() {
 		return this.replace('((','').replace('))','');
@@ -19,6 +34,13 @@ var NFAnnotations = function(selector) {
 	}
 
 	NodeList.prototype.map = NodeList.prototype.map || Array.prototype.map;
+
+	/////////////////////////////////////////////////////////////////
+
+	//                         HELPERS                             //
+
+	/////////////////////////////////////////////////////////////////
+
 
 	this.isReserved = function(str) {
 		if (this.reservedKeywords.indexOf(str.underscore()) >= 0)
@@ -50,12 +72,60 @@ var NFAnnotations = function(selector) {
 		}, { generics : [] });
 	}
 
+	this.textNodesInSelection = function(el) {
+	  var n, a=[], walk=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false);
+	  while(n=walk.nextNode()) a.push(n);
+	  return a;
+	}
+
+	/////////////////////////////////////////////////////////////////
+
+	//                         PARSERS                             //
+
+	/////////////////////////////////////////////////////////////////
+
+
 	this.parseExpression = function(str) {
 		var cut = this.cut(str);
 		var snip = cut.map(this.keysAndValues)
 		console.log(this.json(snip));
 		return this.json(snip);
 	}
+
+	this.extract = function(el) {
+		var text = el.innerHTML;
+		var open = text.indexOf(this.openingExpression);
+		var length = (text.indexOf(this.closingExpression) - open) + this.closingExpression.length;
+		var close = text.indexOf(this.closingExpression) + this.closingExpression.length;
+
+		var prev, selection, post;
+
+		while (text.indexOf(this.openingExpression) !== -1 && text.indexOf(this.closingExpression) !== -1) {
+			open = text.indexOf(this.openingExpression);
+			length = (text.indexOf(this.closingExpression) - open) + this.closingExpression.length;
+			close = text.indexOf(this.closingExpression) + this.closingExpression.length;
+
+			prev = text.substr(0, open);
+			selection = text.substr(open, length).strip();
+			post = text.substr(close);
+
+			text = prev + this.annotationForExpression(selection).outerHTML + post;
+		}
+
+		el.innerHTML = text;
+	}
+
+	this.parse = function(selection) {
+		var nodes = this.textNodesInSelection(selection);
+		nodes = nodes.map(function(n) { return n.parentElement }).filter(function(n) { return n !== selection });
+		nodes.map(this.extract, this);
+	}
+
+	/////////////////////////////////////////////////////////////////
+
+	//                         RENDERERS                           //
+
+	/////////////////////////////////////////////////////////////////
 
 	this.renderGenericProperties = function(data) {
 		return data.generics.reduce(function(list, prop) {
@@ -158,34 +228,11 @@ var NFAnnotations = function(selector) {
 		return span;
 	}
 
-	this.extract = function(el) {
-		var text = el.innerHTML;
-		var open = text.indexOf(this.openingExpression);
-		var length = (text.indexOf(this.closingExpression) - open) + this.closingExpression.length;
-		var close = text.indexOf(this.closingExpression) + this.closingExpression.length;
+	/////////////////////////////////////////////////////////////////
 
-		var prev, selection, post;
+	//                         POST-RENDERERS                      //
 
-		while (text.indexOf(this.openingExpression) !== -1 && text.indexOf(this.closingExpression) !== -1) {
-			open = text.indexOf(this.openingExpression);
-			length = (text.indexOf(this.closingExpression) - open) + this.closingExpression.length;
-			close = text.indexOf(this.closingExpression) + this.closingExpression.length;
-
-			prev = text.substr(0, open);
-			selection = text.substr(open, length).strip();
-			post = text.substr(close);
-
-			text = prev + this.annotationForExpression(selection).outerHTML + post;
-		}
-
-		el.innerHTML = text;
-	}
-
-	this.textNodesInSelection = function(el) {
-	  var n, a=[], walk=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null,false);
-	  while(n=walk.nextNode()) a.push(n);
-	  return a;
-	}
+	/////////////////////////////////////////////////////////////////
 
 	this.requestMapForElement = function(el) {
 		var location = el.dataset.location;
@@ -215,12 +262,6 @@ var NFAnnotations = function(selector) {
 		request.send();
 	}
 
-	this.parse = function(selection) {
-		var nodes = this.textNodesInSelection(selection);
-		nodes = nodes.map(function(n) { return n.parentElement }).filter(function(n) { return n !== selection });
-		nodes.map(this.extract, this);
-	}
-
 	this.prep = function(selector) {
 		selector.querySelectorAll('.newseful-location-map').map(this.requestMapForElement);
 	}
@@ -244,6 +285,12 @@ var NFAnnotations = function(selector) {
 			});
 		});
 	}
+
+	/////////////////////////////////////////////////////////////////
+
+	//                       INITIALIZERS                          //
+
+	/////////////////////////////////////////////////////////////////
 
 	this.init = function(selector) {
 		this.parse(selector);
