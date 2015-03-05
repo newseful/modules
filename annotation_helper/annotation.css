@@ -4,8 +4,6 @@
 }
 
 .newseful-annotation-block {
-	-webkit-transition: display 0s ease .1s;
-	transition: display 0s ease .1s;
 	display:none;
 	-webkit-transform: translate(-50%, -110%);
 	transform: translate(-50%, -110%);

@@ -1,24 +1,31 @@
-var Parser = function() {
-
-	String.prototype.strip = function() {
-		return this.replace('((','').replace('))','');
-	}
-
-	String.prototype.underscore = function() {
-		return this.split(' ').join('_');
-	}
-
-	String.prototype.friendly = function() {
-		return this.split('_').join(' ');
-	}
-
-	NodeList.prototype.map = Array.prototype.map;
+var NFAnnotations = function(selector) {
 
 	this.openingExpression = '((';
 
 	this.closingExpression = '))';
 
 	this.reservedKeywords = ['name','title','description','location','image'];
+
+	String.prototype.strip = String.prototype.strip || function() {
+		return this.replace('((','').replace('))','');
+	}
+
+	String.prototype.underscore = String.prototype.underscore || function() {
+		return this.split(' ').join('_');
+	}
+
+	String.prototype.friendly = String.prototype.friendly || function() {
+		return this.split('_').join(' ');
+	}
+
+	NodeList.prototype.map = NodeList.prototype.map || Array.prototype.map;
+
+	this.isReserved = function(str) {
+		if (this.reservedKeywords.indexOf(str.underscore()) >= 0)
+			return true
+
+		return false;
+	}
 
 	this.cut = function(str) {
 		return str.split('; ')
@@ -29,51 +36,47 @@ var Parser = function() {
 	}
 
 	this.json = function(arr) {
-		var array = arr.map(this.keysAndValues);
-		var json = {};
-		for (var i = 0; i < array.length; ++i) {
-			json[array[i][0].underscore()] = array[i][1];
-		}
-		return json;
+		var _ = this;
+		return arr.reduce(function(obj, current) {
+			var key = current[0],
+					val = current[1];
+
+			if (_.isReserved(key))
+				obj[ key.underscore() ] = val; 
+			else
+				obj.generics.push( { key : key, value : val } );
+
+			return obj;
+		}, { generics : [] });
 	}
 
 	this.parseExpression = function(str) {
 		var cut = this.cut(str);
-		return this.json(cut);
+		var snip = cut.map(this.keysAndValues)
+		console.log(this.json(snip));
+		return this.json(snip);
 	}
 
 	this.renderGenericProperties = function(data) {
-		var list = document.createElement('dl');
+		return data.generics.reduce(function(list, prop) {
+			var dc = document.createElement('div');
+			dc.classList.add('newseful-definition-container');
 
-		for (var key in data) {
-			if (data.hasOwnProperty(key) && this.reservedKeywords.indexOf(key) < 0) {
-				var value = data[key];
-				var dc = document.createElement('div');
-				dc.classList.add('newseful-definition-container');
+			var dt = document.createElement('dt');
+			dt.innerHTML = prop.key;
 
-				var dt = document.createElement('dt');
-				dt.innerHTML = key.friendly();
+			var dd = document.createElement('dd');
+			dd.innerHTML = prop.value;
 
-				var dd = document.createElement('dd');
-				dd.innerHTML = value;
+			dc.appendChild(dt);
+			dc.appendChild(dd);
+			list.appendChild(dc);
 
-				dc.appendChild(dt);
-				dc.appendChild(dd);
-
-				list.appendChild(dc);
-			}
-		}
-
-		return list;
+			return list;
+		}, document.createElement('dl'));
 	}
 
 	this.renderActorAnnotationContents = function(data) {
-		var img = document.createElement('div');
-		img.classList.add('newseful-annotation-image');
-		var imgSrc = document.createElement('img');
-		imgSrc.setAttribute('src', data.image || '');
-		img.appendChild(imgSrc)
-
 		var name = document.createElement('h2');
 		name.innerHTML = data.name;
 
@@ -83,20 +86,15 @@ var Parser = function() {
 		var description = document.createElement('p')
 		description.innerHTML = data.description;
 
-		var genericProperties = this.renderGenericProperties(data);
-
 		var container = document.createElement('div')
 		container.classList.add('newseful-annotation-contents');
-
-		if (data.image)
-			container.appendChild(img);
 
 		container.appendChild(name)
 		container.appendChild(title)
 		container.appendChild(description);
 
-		if (genericProperties.children.length > 0)
-			container.appendChild(genericProperties);
+		if (data.generics.length > 0)
+			container.appendChild(this.renderGenericProperties(data));
 
 		return container;
 	}
@@ -160,10 +158,6 @@ var Parser = function() {
 		return span;
 	}
 
-	this.init = function() {
-		return this;
-	}
-
 	this.extract = function(el) {
 		var text = el.innerHTML;
 		var open = text.indexOf(this.openingExpression);
@@ -193,7 +187,7 @@ var Parser = function() {
 	  return a;
 	}
 
-	this.requestImageForElement = function(el) {
+	this.requestMapForElement = function(el) {
 		var location = el.dataset.location;
 
 		var request = new XMLHttpRequest();
@@ -221,17 +215,25 @@ var Parser = function() {
 		request.send();
 	}
 
-	this.addListeners = function() {
-		document.querySelectorAll('.newseful-location-map').map(this.requestImageForElement);
+	this.parse = function(selection) {
+		var nodes = this.textNodesInSelection(selection);
+		nodes = nodes.map(function(n) { return n.parentElement }).filter(function(n) { return n !== selection });
+		nodes.map(this.extract, this);
+	}
 
-		document.querySelectorAll('.newseful-annotation-container').map(function(el) {
+	this.prep = function(selector) {
+		selector.querySelectorAll('.newseful-location-map').map(this.requestMapForElement);
+	}
+
+	this.listen = function(selector) {
+		selector.querySelectorAll('.newseful-annotation-container').map(function(el) {
 			el.addEventListener('mouseenter', function(e) {
 				this.classList.add('active');
 				var block = this.querySelector('.newseful-annotation-block');
 				block.style.left = e.clientX + 'px';
 				block.style.top = this.getBoundingClientRect().top + document.body.scrollTop + 'px';
 
-				if (block.getBoundingClientRect().top < 10) {
+				if (block.getBoundingClientRect().top < 50) {
 					block.classList.add('flip');
 				}
 			});
@@ -243,14 +245,13 @@ var Parser = function() {
 		});
 	}
 
-	this.parse = function(selection) {
-		var nodes = this.textNodesInSelection(selection);
-		nodes = nodes.map(function(n) { return n.parentElement }).filter(function(n) { return n !== selection });
-		nodes.map(this.extract, this);
-
-		this.addListeners();
+	this.init = function(selector) {
+		this.parse(selector);
+		this.prep(selector);
+		this.listen(selector);
+		return this;
 	}
 
-	return this.init();
+	return this.init(selector);
 
 }
