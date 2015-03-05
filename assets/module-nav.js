@@ -17,7 +17,11 @@ var list = document.createElement('ul');
 var moduleRoutes = [
 {
 	name : 'Annotation Helper',
-	slug : '/annotation_helper/'
+	slug : '/annotation_helper/',
+},
+{
+	name : 'Fact Tracker',
+	slug: '/fact_tracker/'
 },
 {
 	name : 'Timeline',

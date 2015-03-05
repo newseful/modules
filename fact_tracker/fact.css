@@ -1,0 +1,94 @@
+.newseful-fact-inline::after {
+	content: '';
+	display: inline-block;
+	width: .5em;
+	height: .5em;
+	border-radius: 50%;
+	background: #799099;
+	position: relative;
+	top: -.12em;
+	margin-right: .25em;
+}
+
+.newseful-fact-inline.confirmed::after {
+	background: #40C693;
+}
+
+.newseful-fact-inline.unconfirmed::after {
+	background: #B09E52;
+}
+
+.newseful-fact-inline.false::after {
+	background: #DB8D61;
+}
+
+.newseful-fact-module {
+	font-family: 'Atlas-Grotesk', sans-serif;
+	font-size: .875rem;
+	color: #404E54;
+}
+
+.newseful-fact-module li:not(:last-of-type) {
+	border-bottom: 1px solid #D3E6ED;
+}
+
+.newseful-fact-module li {
+	padding: 1rem 0;
+}
+
+.newseful-fact-module li::after {
+	content: '';
+	display: inline-block;
+	float: right;
+	padding: .25rem .5rem;
+	border-radius: 4px;
+	font-family: 'inconsolata', monospace;
+	text-transform: uppercase;
+	font-size: .75rem;
+	position: relative;
+	top: -.2rem;
+}
+
+.newseful-fact-module li::before {
+	content: '';
+	display: inline-block;
+	width: .5rem;
+	height: .5rem;
+	border-radius: 50%;
+	position: relative;
+	top: -.05rem;
+	margin-right: .5rem;
+}
+
+.newseful-fact-module li[data-status='confirmed']::after {
+	content: 'confirmed';	
+	background: rgba(64, 198, 147, 0.3);
+	border: 1px solid #40C693;
+	color: #40C693;
+}
+
+.newseful-fact-module li[data-status='confirmed']::before {
+	background: #40C693;
+}
+
+.newseful-fact-module li[data-status='unconfirmed']::after {
+	content: 'unconfirmed';
+	background: #F2E7B8;
+	border: 1px solid #B09E52;
+	color: #B09E52;
+}
+
+.newseful-fact-module li[data-status='unconfirmed']::before {
+	background: #B09E52;
+}
+
+.newseful-fact-module li[data-status='false']::after {
+	content: 'false';
+	background: #F2D8C7;
+	border: 1px solid #DB8D61;
+	color: #DB8D61;
+}
+
+.newseful-fact-module li[data-status='false']::before {
+	background: #DB8D61;
+}
