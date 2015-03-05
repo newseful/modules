@@ -33,6 +33,10 @@ var NFAnnotations = function(selector) {
 		return this.split('_').join(' ');
 	}
 
+	String.prototype.oneLiner = String.prototype.oneLiner || function() {
+		return this.split(' ').join('\240');
+	}
+
 	NodeList.prototype.map = NodeList.prototype.map || Array.prototype.map;
 
 	/////////////////////////////////////////////////////////////////
@@ -207,7 +211,7 @@ var NFAnnotations = function(selector) {
 
 		var span = document.createElement('span')
 		span.classList.add('newseful-annotation-container');
-		span.innerHTML = data.name;
+		span.innerHTML = data.name.oneLiner();
 
 		var annotation = document.createElement('div');
 		annotation.classList.add('newseful-annotation-block');
@@ -271,8 +275,9 @@ var NFAnnotations = function(selector) {
 			el.addEventListener('mouseenter', function(e) {
 				this.classList.add('active');
 				var block = this.querySelector('.newseful-annotation-block');
-				block.style.left = e.clientX + 'px';
-				block.style.top = this.getBoundingClientRect().top + document.body.scrollTop + 'px';
+				var rect = this.getBoundingClientRect();
+				block.style.left = rect.left + (rect.width / 2) + 'px';
+				block.style.top = rect.top + document.body.scrollTop + 'px';
 
 				if (block.getBoundingClientRect().top < 50) {
 					block.classList.add('flip');
