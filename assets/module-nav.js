@@ -3,8 +3,10 @@ modulenav.classList.add('newseful-module-nav');
 var title = document.createElement('h1');
 
 var backURL = window.location.pathname.split('/');
+
 backURL.pop();
 backURL.pop();
+
 backURL = backURL.length > 1 ? backURL.join('/') : '/';
 
 var backLink = document.createElement('a');
@@ -32,7 +34,7 @@ var moduleRoutes = [
 var currentModule;
 
 var urlForSlug = function(s) {
-	return backURL + s + 'index.html';
+	return  s + 'index.html';
 }
 
 moduleRoutes.map(function(m){

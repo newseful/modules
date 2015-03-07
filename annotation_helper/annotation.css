@@ -1,9 +1,9 @@
-.newseful-annotation-container {
+.newseful-annotation {
 	text-decoration: underline;
 	cursor: pointer;
 }
 
-.newseful-annotation-block {
+.newseful-annotation__block {
 	display:none;
 	-webkit-transform: translate(-50%, -110%);
 	transform: translate(-50%, -110%);
@@ -18,12 +18,12 @@
 	color:  #404E54;
 }
 
-.newseful-annotation-block.flip {
+.newseful-annotation__block--flip {
 	-webkit-transform: translate(-50%, 20%);
 	transform: translate(-50%, 20%);
 }
 
-.newseful-annotation-block::before {
+.newseful-annotation__block::before {
 	content:'';
 	width: 0;
 	height: 0;
@@ -37,7 +37,7 @@
 	z-index: -1;
 }
 
-.newseful-annotation-block::after {
+.newseful-annotation__block::after {
 	content:'';
 	width: 0;
 	height: 0;
@@ -51,62 +51,58 @@
 	z-index: -1;
 }
 
-.newseful-annotation-block.flip::before {
+.newseful-annotation__block--flip::before {
 	top: -16px;
 	bottom: auto;
 	border-top: 8px solid transparent;
 	border-bottom: 8px solid #83AFBA;
 }
 
-.newseful-annotation-block.flip::after {
+.newseful-annotation__block--flip::after {
 	top: -15px;
 	bottom: auto;
 	border-top: 8px solid transparent;
 	border-bottom: 8px solid #D3E6ED;
 }
 
-.newseful-annotation-contents > *:not(img) {
-	padding-left: 1rem;
-	padding-right: 1rem;
-}
-
-.newseful-annotation-contents {
-	overflow: hidden;
-	border-radius: 3px;
-}
-
-.newseful-annotation-block p {
-	font-family: 'Atlas Grotesk';
-	font-size: .875rem;
-	color: #404E54;
-	padding-top: 0;
-	padding-bottom: .5rem;
-}
-
-.newseful-annotation-block h2 {
+.newseful-annotation__name {
 	font-family: 'Atlas Grotesk', sans-serif;
 	color: #404E54;
-	margin-bottom: .5rem;
+	padding: .85rem .85rem 0;
+	margin: 0;
 	font-weight: 400;
+	font-size: 1rem;
 }
 
-.newseful-annotation-block h3 {
+.newseful-annotation__title {
 	font-family: 'Atlas Grotesk', sans-serif;
 	font-size: .75rem;
+	padding: .85rem .85rem 0;
+	margin: 0;
 	text-transform: uppercase;
 	color: #799099;
-	margin-bottom: .5rem;
 	font-weight: 500;
 	letter-spacing: 1px;
 }
 
-.newseful-annotation-block dl {
+
+.newseful-annotation__description {
+	font-family: 'Atlas Grotesk';
+	font-size: .875rem;
+	color: #404E54;
+	padding: .85rem .85rem .85rem;
+	margin: 0;
+}
+
+.newseful-annotation__generic-props-list {
 	font-family: 'inconsolata', monospace;
 	font-size: .75rem;
 	text-transform: uppercase;
+	padding: 0 .85rem .85rem;
+	margin: 0;
 }
 
-.newseful-annotation-block dl div {
+.newseful-annotation__generic-prop-pair {
 	display: inline-block;
 	background: #83AFBA;
 	border: 1px solid #63848C;
@@ -115,36 +111,30 @@
 	margin-right: .25rem;
 }
 
-.newseful-annotation-block dl dt {
+.newseful-annotation__generic-prop-title {
 	color: #D3E6ED;
+	display: inline;
+	margin:0;
+	padding:0;
 }
 
-.newseful-annotation-block dl dd {
+.newseful-annotation__generic-prop-def {
 	color: #FFF;
+	display: inline;
+	margin:0;
+	padding:0;
 }
 
-.newseful-annotation-block dl dt::after {
+.newseful-annotation__generic-prop-title::after {
 	content:': ';
 }
 
-.newseful-annotation-block dl div > * {
-	display: inline;
-}
-
-.newseful-annotation-block img {
+.newseful-annotation__location-map {
 	max-width: 100%;
 	display: block;
 }
 
-.newseful-annotation-contents > *:first-child:not(img) {
-	padding-top: .8rem;
-}
-
-.newseful-annotation-contents > *:last-child:not(img) {
-	padding-bottom: .8rem;
-}
-
-.newseful-annotation-container:hover .newseful-annotation-block {
+.newseful-annotation:hover .newseful-annotation__block {
 	opacity: 1;
 	display: block;
 }

@@ -1,48 +1,23 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* 
+	 Newseful reset based on Meyer Reset
+	 http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
 */
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+/*.newseful-module, .newseful-module div, .newseful-module span,
+.newseful-module h1,.newseful-module h2,.newseful-module h3,.newseful-module h4,.newseful-module h5,.newseful-module h6,.newseful-module p,.newseful-module blockquote,.newseful-module pre,
+.newseful-module a, .newseful-module dl, .newseful-module dt,.newseful-module dd,.newseful-module ol,.newseful-module ul,.newseful-module li
+{
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
+	font-size: 1em;
 	font: inherit;
 	vertical-align: baseline;
+	line-height: 1.388888;
 }
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
+
+.newseful-module ol, .newseful-module ul, .newseful-module dl {
 	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
+}*/

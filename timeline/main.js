@@ -21,7 +21,7 @@ BRAND.grayScale = ['#1A2326','#404E54','#53646B','#799099','#9EBBC6','#D3E6ED']
 
 BRAND.dataScale = ['#9385B1','#91E789']
 
-var NewsefulTimelineView = function(options, dataURL) {
+var NFTimelineView = function(options, dataURL) {
 	var ntv = {
 
 		// Separated into events and commentary by default
@@ -171,24 +171,24 @@ var NewsefulTimelineView = function(options, dataURL) {
 			var _ = this;
 
 			var eventContainer = d3.select(this.container).append('div')
-				.classed('newseful-event-container', true);
+				.classed('newseful-timeline__event-container', true);
 
 			eventContainer.append('div')
-				.classed('newseful-timeline-label', true)
+				.classed({'newseful-timeline__label' : true,'newseful-timeline__label--right' : true})
 				.text('Events');
 
-			this.eventBlock = eventContainer.selectAll('.newseful-event-block')
+			this.eventBlock = eventContainer.selectAll('.newseful-timeline__event-block')
 				.data(this.data.events)
 				.enter()
 					.append('div')
-					.classed('newseful-event-block', true)
+					.classed('newseful-timeline__event-block', true)
 
 			this.eventBlock.append('p')
-				.classed('newseful-timestamp',true)
+				.classed({'newseful-timeline__timestamp':true, 'newseful-timeline__timestamp--event':true})
 				.text(function(d) { return _.timeStampFormat( d.time ) });
 
 			this.eventBlock.append('p')
-				.classed('newseful-content', true)
+				.classed('newseful-timeline__event-text-content', true)
 				.text(function(d) { return d.text });
 
 			// Add the vertical offset of each element back into its dataset to position things with later
@@ -202,36 +202,36 @@ var NewsefulTimelineView = function(options, dataURL) {
 			var _ = this;
 
 			var commentaryContainer = d3.select(this.container).append('div')
-				.classed('newseful-commentary-container', true)
+				.classed('newseful-timeline__commentary-container', true)
 
 			commentaryContainer.append('div')
-				.classed('newseful-timeline-label', true)
+				.classed({'newseful-timeline__label' : true, 'newseful-timeline__label--left': true})
 				.text('Commentary');
 
-			this.commentaryBlock = commentaryContainer.selectAll('.newseful-commentary-block')
+			this.commentaryBlock = commentaryContainer.selectAll('.newseful-timeline__commentary-block')
 				.data(this.data.commentary)
 				.enter()
 					.append('div')
-					.classed('newseful-commentary-block',true)
+					.classed('newseful-timeline__commentary-block',true)
 					.style('top', function(d) { return d.offset + 'px' });
 
 			this.commentaryBlock.append('p')
-				.classed('newseful-commentary-title', true)
+				.classed('newseful-timeline__commentary-title', true)
 				.text(function(d) { return d.title });
 
 			var commentaryContent = this.commentaryBlock.append('div')
-				.classed('newseful-commentary-content', true)
+				.classed('newseful-timeline__commentary-text-content', true)
 			
 			commentaryContent.append('p')
 				.text(function(d) { return d.text });
 
 			commentaryContent.append('p')
-				.classed('newseful-timestamp', true)
+				.classed({ 'newseful-timeline__timestamp': true, 'newseful-timeline__timestamp--commentary' : true})
 				.text(function(d) { return _.abbreviatedTimeStampFormat( d.time ) });
 
 			commentaryContent.filter(function(d) { return !!d.source })
 				.append('a')
-				.classed('newseful-source-button', true)
+				.classed('newseful-timeline__source-button', true)
 				.attr('href', function(d){ return d.source })
 				.text('Source');
 		},
@@ -246,19 +246,19 @@ var NewsefulTimelineView = function(options, dataURL) {
 				}
 			});
 
-			var timelineTicksGroup = timeline.selectAll('.ticks')
+			var timelineTicksGroup = timeline.selectAll('.newseful-timeline__ticks-group')
 				.data(timelineTicksData)
 				.enter()
 					.append('g')
-					.classed('ticks', true)
+					.classed('newseful-timeline__ticks-group', true)
 					.each(function(data, index) {
 						console.log(data, index);
 
-						d3.select(this).selectAll('.tick')
+						d3.select(this).selectAll('.newseful-timeline__tick')
 							.data(data.data)
 							.enter()
 								.append('line')
-								.classed('tick', true)
+								.classed('newseful-timeline__tick', true)
 								.attr('x1', '35%')
 								.attr('x2', '65%')
 								.attr('y1', function(d, i) {
@@ -290,47 +290,48 @@ var NewsefulTimelineView = function(options, dataURL) {
 
 		renderTimeline : function() {
 			var _ = this;
-			var eventContainer = d3.select('.newseful-event-container');
-			var timelineContainer = d3.select(this.container).append('svg','.newseful-event-container')
-				.classed('newseful-timeline-container', true)
+			var eventContainer = d3.select('.newseful-timeline__event-container');
+			var timelineContainer = d3.select(this.container).append('svg','.newseful-timeline__event-container')
+				.classed('newseful-timeline__timeline-container', true)
 				.attr('width', '10%')
 				.style('margin-top', '24px')
 
-						var dateTimeline = timelineContainer.append('g')
-				.classed('newseful-date-timeline', true)
+			var dateTimeline = timelineContainer.append('g')
+				.classed('newseful-timeline__date-timeline', true)
 
 			if (this.ticks)
 				this.addTicksForTimeline(dateTimeline);
 
 			dateTimeline.append('line')
+				.classed('newseful-timeline__date-line', true)
 				.attr('x1', '50%')
 				.attr('x2', '50%')
 				.attr('y1', -45)
 				.attr('y2', this.data.events[this.data.events.length - 1].offset );
 
 			dateTimeline.append('circle')
-				.classed('newseful-range-circle', true)
+				.classed('newseful-timeline__range-circle', true)
 				.attr('cx', '50%')
 				.attr('cy', -45)
 				.attr('r', 10);
 
 			dateTimeline.append('circle')
-				.classed('newseful-range-circle', true)
+				.classed('newseful-timeline__range-circle', true)
 				.attr('cx', '50%')
 				.attr('cy', this.data.events[this.data.events.length - 1].offset)
 				.attr('r', 10)
 
 			dateTimeline.append('circle')
-				.classed('newseful-activity-circle', true)
+				.classed('newseful-timeline__activity-circle', true)
 				.attr('cx', '50%')
 				.attr('cy', -45)
 				.attr('r', 5);
 			
-			dateTimeline.selectAll('.newseful-date-marker-bg')
+			dateTimeline.selectAll('.newseful-timeline__date-marker-bg')
 				.data(this.data.daysInRange)
 				.enter()
 					.append('rect')
-					.classed('newseful-date-marker-bg', true)
+					.classed('newseful-timeline__date-marker-bg', true)
 					.attr('x', '10%')
 					.attr('y', function(d) { return d.offset })
 					.attr('rx', 4)
@@ -338,11 +339,11 @@ var NewsefulTimelineView = function(options, dataURL) {
 					.attr('width', '80%')
 					.attr('height', '24')
 
-			dateTimeline.selectAll('.newseful-date-marker')
+			dateTimeline.selectAll('.newseful-timeline__date-marker')
 				.data(this.data.daysInRange)
 				.enter()
 					.append('text')
-					.classed('newseful-date-marker', true)
+					.classed('newseful-timeline__date-marker', true)
 					.attr('x', '50%')
 					.attr('y', function(d){ return d.offset })
 					.attr('text-anchor', 'middle')
@@ -350,38 +351,40 @@ var NewsefulTimelineView = function(options, dataURL) {
 					.text(function(d) { return _.shortDateFormat(d) });
 
 			var eventsTimeline = timelineContainer.append('g')
-				.classed('newseful-events-timeline', true)
+				.classed('newseful-timeline__event-timeline', true)
 
 			// Only draw the actual line if there's more than one event
 			if (this.data.events.length > 1) {
 				eventsTimeline.append('line')
+					.classed('newseful-timeline__event-line', true)
 					.attr('x1', '100%')
 					.attr('x2', '100%')
 					.attr('y1', this.data.events[0].offset)
 					.attr('y2', this.data.events[this.data.events.length - 1].offset);
 			}
 
-			eventsTimeline.selectAll('.node')
+			eventsTimeline.selectAll('.newseful-timeline__event-node')
 				.data(this.data.events)
 				.enter()
 					.append('circle')
-					.classed('node', true)
+					.classed('newseful-timeline__event-node', true)
 					.attr('cx', '100%')
 					.attr('cy', function(d) { return d.offset })
 					.attr('r', 5);
 
 			var commentaryTimeline = timelineContainer.append('g')
-				.classed('newseful-commentary-timeline', true);
+				.classed('newseful-timeline__comentary-timeline', true);
 
 			if (this.data.commentary.length > 1) {
 				commentaryTimeline.append('line')
+					.classed('newseful-timeline__commentary-line', true)
 					.attr('x1', '0')
 					.attr('x2', '0')
 					.attr('y1', this.data.commentary[0].offset)
 					.attr('y2', this.data.commentary[this.data.commentary.length - 1].offset);
 			}
 
-			commentaryTimeline.selectAll('.node')
+			commentaryTimeline.selectAll('.newseful-timeline__commentary-node')
 				.data(this.data.commentary)
 				.enter()
 					.append('circle')

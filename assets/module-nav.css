@@ -15,6 +15,10 @@
 	width: 40%;
 	float: left;
 	font-family: 'Atlas Grotesk', sans serif;
+	font-size: 1rem;
+	padding: 0;
+	margin: 0;
+	font-weight: 400;
 }
 
 .newseful-module-nav a {
@@ -23,6 +27,7 @@
 }	
 
 .newseful-module-nav ul {
+	margin: 0;
 	font-family: 'inconsolata', monospace;
 	float: right;
 }

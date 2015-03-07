@@ -1,24 +1,25 @@
 .newseful-fact-inline::after {
 	content: '';
 	display: inline-block;
-	width: .5em;
-	height: .5em;
+	width: .6em;
+	height: .6em;
 	border-radius: 50%;
 	background: #799099;
 	position: relative;
+	padding: 0;
 	top: -.12em;
-	margin-right: .25em;
+	margin: 0 .25em 0 0;
 }
 
-.newseful-fact-inline.confirmed::after {
+.newseful-fact-inline--confirmed::after {
 	background: #40C693;
 }
 
-.newseful-fact-inline.unconfirmed::after {
+.newseful-fact-inline--unconfirmed::after {
 	background: #B09E52;
 }
 
-.newseful-fact-inline.false::after {
+.newseful-fact-inline--false::after {
 	background: #DB8D61;
 }
 
@@ -28,15 +29,21 @@
 	color: #404E54;
 }
 
-.newseful-fact-module li:not(:last-of-type) {
+.newseful-fact-module__fact-list {
+	list-style-type: none;
+	padding:0;
+	margin: 0;
+}
+
+.newseful-fact-module__list-item:not(:last-of-type) {
 	border-bottom: 1px solid #D3E6ED;
 }
 
-.newseful-fact-module li {
+.newseful-fact-module__list-item {
 	padding: 1rem 0;
 }
 
-.newseful-fact-module li::after {
+.newseful-fact-module__list-item::after {
 	content: '';
 	display: inline-block;
 	float: right;
@@ -49,46 +56,44 @@
 	top: -.2rem;
 }
 
-.newseful-fact-module li::before {
+.newseful-fact-module__list-item::before {
 	content: '';
 	display: inline-block;
-	width: .5rem;
-	height: .5rem;
+	width: .8rem;
+	height: .8rem;
 	border-radius: 50%;
-	position: relative;
-	top: -.05rem;
 	margin-right: .5rem;
 }
 
-.newseful-fact-module li[data-status='confirmed']::after {
+.newseful-fact-module__list-item[data-status='newseful-fact-status--confirmed']::after {
 	content: 'confirmed';	
 	background: rgba(64, 198, 147, 0.3);
 	border: 1px solid #40C693;
 	color: #40C693;
 }
 
-.newseful-fact-module li[data-status='confirmed']::before {
+.newseful-fact-module__list-item[data-status='newseful-fact-status--confirmed']::before {
 	background: #40C693;
 }
 
-.newseful-fact-module li[data-status='unconfirmed']::after {
+.newseful-fact-module__list-item[data-status='newseful-fact-status--unconfirmed']::after {
 	content: 'unconfirmed';
 	background: #F2E7B8;
 	border: 1px solid #B09E52;
 	color: #B09E52;
 }
 
-.newseful-fact-module li[data-status='unconfirmed']::before {
+.newseful-fact-module__list-item[data-status='newseful-fact-status--unconfirmed']::before {
 	background: #B09E52;
 }
 
-.newseful-fact-module li[data-status='false']::after {
+.newseful-fact-module__list-item[data-status='newseful-fact-status--false']::after {
 	content: 'false';
 	background: #F2D8C7;
 	border: 1px solid #DB8D61;
 	color: #DB8D61;
 }
 
-.newseful-fact-module li[data-status='false']::before {
+.newseful-fact-module__list-item[data-status='newseful-fact-status--false']::before {
 	background: #DB8D61;
 }

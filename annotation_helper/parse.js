@@ -132,15 +132,17 @@ var NFAnnotations = function(selector) {
 	/////////////////////////////////////////////////////////////////
 
 	this.renderGenericProperties = function(data) {
-		return data.generics.reduce(function(list, prop) {
+		var list = data.generics.reduce(function(list, prop) {
 			var dc = document.createElement('div');
-			dc.classList.add('newseful-definition-container');
+			dc.classList.add('newseful-annotation__generic-prop-pair');
 
 			var dt = document.createElement('dt');
 			dt.innerHTML = prop.key;
+			dt.classList.add('newseful-annotation__generic-prop-title');
 
 			var dd = document.createElement('dd');
 			dd.innerHTML = prop.value;
+			dd.classList.add('newseful-annotation__generic-prop-def');
 
 			dc.appendChild(dt);
 			dc.appendChild(dd);
@@ -148,20 +150,27 @@ var NFAnnotations = function(selector) {
 
 			return list;
 		}, document.createElement('dl'));
+
+		list.classList.add('newseful-annotation__generic-props-list')
+
+		return list;
 	}
 
 	this.renderActorAnnotationContents = function(data) {
 		var name = document.createElement('h2');
 		name.innerHTML = data.name;
+		name.classList.add('newseful-annotation__name');
 
 		var title = document.createElement('h3')
 		title.innerHTML = data.title;
+		title.classList.add('newseful-annotation__title');
 
 		var description = document.createElement('p')
 		description.innerHTML = data.description;
+		description.classList.add('newseful-annotation__description');
 
 		var container = document.createElement('div')
-		container.classList.add('newseful-annotation-contents');
+		container.classList.add('newseful-annotation__block');
 
 		container.appendChild(name)
 		container.appendChild(title)
@@ -177,10 +186,10 @@ var NFAnnotations = function(selector) {
 		data.location = data.location.replace(' ', '+')
 
 		var container = document.createElement('div');
-		container.classList.add('newseful-annotation-contents');
+		container.classList.add('newseful-annotation__block');
 
 		var img = document.createElement('img');
-		img.classList.add('newseful-location-map');
+		img.classList.add('newseful-annotation__location-map');
 
 		img.dataset.location = data.location;
 
@@ -191,13 +200,15 @@ var NFAnnotations = function(selector) {
 
 	this.renderDefaultAnnotationContents = function(data) {
 		var container = document.createElement('div');
-		container.classList.add('newseful-annotation-contents');
+		container.classList.add('newseful-annotation__block');
 
 		var title = document.createElement('h2');
 		title.innerHTML = data.name;
+		title.classList.add('newseful-annotation__name')
 
 		var description = document.createElement('p');
 		description.innerHTML = data.description;
+		description.classList.add('newseful-annotation__description');
 
 		container.appendChild(title);
 		container.appendChild(description);
@@ -210,11 +221,8 @@ var NFAnnotations = function(selector) {
 		var _ = this;
 
 		var span = document.createElement('span')
-		span.classList.add('newseful-annotation-container');
+		span.classList.add('newseful-module', 'newseful-annotation');
 		span.innerHTML = data.name.oneLiner();
-
-		var annotation = document.createElement('div');
-		annotation.classList.add('newseful-annotation-block');
 
 		var annotationContents = (function() {
 			if (data.title) {
@@ -225,9 +233,7 @@ var NFAnnotations = function(selector) {
 			return _.renderDefaultAnnotationContents(data);
 		})();
 
-		annotation.appendChild(annotationContents);
-
-		span.appendChild(annotation);
+		span.appendChild(annotationContents);
 
 		return span;
 	}
@@ -267,26 +273,26 @@ var NFAnnotations = function(selector) {
 	}
 
 	this.prep = function(selector) {
-		selector.querySelectorAll('.newseful-location-map').map(this.requestMapForElement);
+		selector.querySelectorAll('.newseful-annotation__location-map').map(this.requestMapForElement);
 	}
 
 	this.listen = function(selector) {
-		selector.querySelectorAll('.newseful-annotation-container').map(function(el) {
+		selector.querySelectorAll('.newseful-annotation').map(function(el) {
 			el.addEventListener('mouseenter', function(e) {
-				this.classList.add('active');
-				var block = this.querySelector('.newseful-annotation-block');
+				this.classList.add('newseful-annotation--active');
+				var block = this.querySelector('.newseful-annotation__block');
 				var rect = this.getBoundingClientRect();
 				block.style.left = rect.left + (rect.width / 2) + 'px';
 				block.style.top = rect.top + document.body.scrollTop + 'px';
 
 				if (block.getBoundingClientRect().top < 50) {
-					block.classList.add('flip');
+					block.classList.add('newseful-annotation__block--flip');
 				}
 			});
 
 			el.addEventListener('mouseleave', function(e) {
-				this.classList.remove('active');
-				this.querySelector('.newseful-annotation-block').classList.remove('flip');
+				this.classList.remove('newseful-annotation--active');
+				this.querySelector('.newseful-annotation__block--flip').classList.remove('newseful-annotation__block--flip');
 			});
 		});
 	}
