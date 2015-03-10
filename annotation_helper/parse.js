@@ -101,6 +101,7 @@ var NFAnnotations = function(selector) {
 		var open = text.indexOf(this.openingExpression);
 		var length = (text.indexOf(this.closingExpression) - open) + this.closingExpression.length;
 		var close = text.indexOf(this.closingExpression) + this.closingExpression.length;
+		var tree = el.cloneNode(false);
 
 		var prev, selection, post;
 
@@ -113,10 +114,18 @@ var NFAnnotations = function(selector) {
 			selection = text.substr(open, length).strip();
 			post = text.substr(close);
 
-			text = prev + this.annotationForExpression(selection).outerHTML + post;
+			selectionNode = this.annotationForExpression(selection);
+			prevNode = document.createTextNode(prev);
+
+			tree.appendChild(prevNode);
+			tree.appendChild(selectionNode);
+
+			text = post;
 		}
 
-		el.innerHTML = text;
+		tree.appendChild(document.createTextNode(text));
+
+		el.parentElement.replaceChild(tree, el);
 	}
 
 	this.parse = function(selection) {
@@ -292,7 +301,8 @@ var NFAnnotations = function(selector) {
 
 			el.addEventListener('mouseleave', function(e) {
 				this.classList.remove('newseful-annotation--active');
-				this.querySelector('.newseful-annotation__block--flip').classList.remove('newseful-annotation__block--flip');
+				if (this.querySelector('.newseful-annotation__block--flip'))
+					this.querySelector('.newseful-annotation__block--flip').classList.remove('newseful-annotation__block--flip');
 			});
 		});
 	}

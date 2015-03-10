@@ -24,6 +24,10 @@ var NFFactCheck = function() {
 		return sub.indexOf(query) + index;
 	};
 
+	String.prototype.splitAtIndex = function(index) {
+		return this.split(this.charAt(index));
+	}
+
 	String.prototype.cutExpression = function(open, close) {
 		var o = this.indexOf(open);
 		var c = this.indexOf(close) + close.length;
@@ -49,8 +53,6 @@ var NFFactCheck = function() {
 				return fact.type == key;
 			});
 		});
-
-		console.log(this.sortedFacts);
 	};
 
 	this.textNodesInSelection = function(el) {
@@ -61,6 +63,8 @@ var NFFactCheck = function() {
 
 	this.extract = function(node) {
 		var text = node.innerHTML;
+		var tree = node.cloneNode(false);
+
 		if (text !== undefined) {
 			var openExpr = text.indexOf(this.openingExpression);
 			var closeExpr = text.indexOf(this.closingExpression) + this.closingExpression.length;
@@ -79,7 +83,6 @@ var NFFactCheck = function() {
 					return match[0];
 				})();
 				
-
 				var sentenceStart = text.prevIndexOf('.', openExpr);
 				var sentenceEnd = text.nextIndexOf('.', closeExpr);
 
@@ -87,21 +90,32 @@ var NFFactCheck = function() {
 				var post = text.substr(sentenceEnd + 1);
 
 				var sentence = text.substr(sentenceStart + 1, sentenceEnd - sentenceStart);
-				var output = '<span class="newseful-module newseful-fact-inline newseful-fact-inline--' + type + '">' + sentence.cutExpression(this.openingExpression, this.closingExpression) + '</span>';
+				var cleanSentenceNode = document.createTextNode(sentence.cutExpression(this.openingExpression, this.closingExpression))
+				var cleanPrev = document.createTextNode(prev);
 
-				text = prev + output + post;
+				var output = document.createElement('span');
+				output.classList.add('newseful-module', 'newseful-fact-inline', 'newseful-fact-inline--' + type);
+				output.appendChild(cleanSentenceNode);
 
 				this.facts.push({type : type, text : sentence.cutExpression(this.openingExpression, this.closingExpression).stripLeadingSpaces()});
 
+				tree.appendChild(cleanPrev);
+				tree.appendChild(output);
+
+				text = post;
 				openExpr = text.indexOf(this.openingExpression);
 				closeExpr = text.indexOf(this.closingExpression) + this.closingExpression.length;
 				length = closeExpr - openExpr;
 			};
+
+			tree.appendChild(document.createTextNode(text));
+
 		};
 
 		this.sortData();
 
-		node.innerHTML = text;
+		node.parentElement.replaceChild(tree, node);
+
 	};
 
 	this.parse = function(el) {
