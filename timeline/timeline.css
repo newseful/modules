@@ -21,6 +21,7 @@
 
 .newseful-timeline__commentary-container {
 	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 30%;
 	float: left;
@@ -30,6 +31,7 @@
 
 .newseful-timeline__event-container * {
 	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -114,6 +116,7 @@
 
 .newseful-timeline__commentary-container * {
 	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 

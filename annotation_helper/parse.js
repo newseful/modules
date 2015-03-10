@@ -37,6 +37,13 @@ var NFAnnotations = function(selector) {
 		return this.split(' ').join('\240');
 	}
 
+	DOMTokenList.prototype.addMany = function() {
+		for (var key in arguments) {
+			var arg = arguments[key];
+			this.add(arg);
+		}
+	}
+
 	NodeList.prototype.map = NodeList.prototype.map || Array.prototype.map;
 
 	/////////////////////////////////////////////////////////////////
@@ -230,7 +237,7 @@ var NFAnnotations = function(selector) {
 		var _ = this;
 
 		var span = document.createElement('span')
-		span.classList.add('newseful-module', 'newseful-annotation');
+		span.classList.addMany('newseful-module', 'newseful-annotation');
 		span.innerHTML = data.name.oneLiner();
 
 		var annotationContents = (function() {

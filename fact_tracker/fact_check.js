@@ -28,6 +28,13 @@ var NFFactCheck = function() {
 		return this.split(this.charAt(index));
 	}
 
+	DOMTokenList.prototype.addMany = function() {
+		for (var key in arguments) {
+			var arg = arguments[key];
+			this.add(arg);
+		}
+	}
+
 	String.prototype.cutExpression = function(open, close) {
 		var o = this.indexOf(open);
 		var c = this.indexOf(close) + close.length;
@@ -61,61 +68,64 @@ var NFFactCheck = function() {
 	  return a;
 	};
 
-	this.extract = function(node) {
-		var text = node.innerHTML;
-		var tree = node.cloneNode(false);
+	this.tree = function(node) {
+		var text = node.innerHTML,
+				tree = node.cloneNode(false),
+				_ = this;
 
-		if (text !== undefined) {
-			var openExpr = text.indexOf(this.openingExpression);
-			var closeExpr = text.indexOf(this.closingExpression) + this.closingExpression.length;
-			var length = closeExpr - openExpr;
-			var _ = this;
+		if (text == undefined)
+			return node;
 
-			while (openExpr > -1 && closeExpr > -1) {
-
-				var expr = text.substr(openExpr, length);
-
-				var type = (function() {
-					var match = _.reservedKeywords.filter(function(k) {
-						return k == expr.strip();
-					});
-
-					return match[0];
-				})();
-				
-				var sentenceStart = text.prevIndexOf('.', openExpr);
-				var sentenceEnd = text.nextIndexOf('.', closeExpr);
-
-				var prev = text.substr(0,text.prevIndexOf('.', sentenceStart));
-				var post = text.substr(sentenceEnd + 1);
-
-				var sentence = text.substr(sentenceStart + 1, sentenceEnd - sentenceStart);
-				var cleanSentenceNode = document.createTextNode(sentence.cutExpression(this.openingExpression, this.closingExpression))
-				var cleanPrev = document.createTextNode(prev);
-
-				var output = document.createElement('span');
-				output.classList.add('newseful-module', 'newseful-fact-inline', 'newseful-fact-inline--' + type);
-				output.appendChild(cleanSentenceNode);
-
-				this.facts.push({type : type, text : sentence.cutExpression(this.openingExpression, this.closingExpression).stripLeadingSpaces()});
-
-				tree.appendChild(cleanPrev);
-				tree.appendChild(output);
-
-				text = post;
-				openExpr = text.indexOf(this.openingExpression);
-				closeExpr = text.indexOf(this.closingExpression) + this.closingExpression.length;
+		var openExpr = text.indexOf(this.openingExpression),
+				closeExpr = text.indexOf(this.closingExpression) + this.closingExpression.length,
 				length = closeExpr - openExpr;
-			};
 
-			tree.appendChild(document.createTextNode(text));
+		while (openExpr > -1 && closeExpr > -1) {
 
+			var expr = text.substr(openExpr, length),
+					type = (function() {
+						var match = _.reservedKeywords.filter(function(k) {
+							return k == expr.strip();
+						});
+						return match[0];
+					})();
+			
+			var sentenceStart = text.prevIndexOf('.', openExpr),
+					sentenceEnd = text.nextIndexOf('.', closeExpr);
+
+			var prev = text.substr(0,text.prevIndexOf('.', sentenceStart)),
+					post = text.substr(sentenceEnd + 1);
+
+			var sentence = text.substr(sentenceStart + 1, sentenceEnd - sentenceStart);
+			var cleanSentenceNode = document.createTextNode(sentence.cutExpression(this.openingExpression, this.closingExpression))
+			var cleanPrevNode = document.createTextNode(prev);
+
+			var output = document.createElement('span');
+			output.classList.addMany('newseful-module', 'newseful-fact-inline', 'newseful-fact-inline--' + type);
+			output.appendChild(cleanSentenceNode);
+
+			this.facts.push({type : type, text : sentence.cutExpression(this.openingExpression, this.closingExpression).stripLeadingSpaces()});
+
+			tree.appendChild(cleanPrevNode);
+			tree.appendChild(output);
+
+			text = post;
+
+			// Reset for loop
+			openExpr = text.indexOf(this.openingExpression);
+			closeExpr = text.indexOf(this.closingExpression) + this.closingExpression.length;
+			length = closeExpr - openExpr;
 		};
 
+		tree.appendChild(document.createTextNode(text));
+
+		return tree;
+	}
+
+	this.extract = function(node) {		
+		var tree = this.tree(node);
 		this.sortData();
-
 		node.parentElement.replaceChild(tree, node);
-
 	};
 
 	this.parse = function(el) {
