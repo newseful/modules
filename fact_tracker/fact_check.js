@@ -87,6 +87,10 @@ var NFFactCheck = function() {
 						var match = _.reservedKeywords.filter(function(k) {
 							return k == expr.strip();
 						});
+
+						if (match.length == 0)
+							return 'unconfirmed';
+
 						return match[0];
 					})();
 			
@@ -104,7 +108,7 @@ var NFFactCheck = function() {
 			output.classList.addMany('newseful-module', 'newseful-fact-inline', 'newseful-fact-inline--' + type);
 			output.appendChild(cleanSentenceNode);
 
-			this.facts.push({type : type, text : sentence.cutExpression(this.openingExpression, this.closingExpression).stripLeadingSpaces()});
+			this.facts.push({type : type, label : expr.strip(), text : sentence.cutExpression(this.openingExpression, this.closingExpression).stripLeadingSpaces()});
 
 			tree.appendChild(cleanPrevNode);
 			tree.appendChild(output);
@@ -152,6 +156,7 @@ var NFFactCheck = function() {
 				item.classList.add('newseful-fact-module__list-item')
 				item.innerHTML = fact.text;
 				item.dataset.status = 'newseful-fact-status--' + fact.type;
+				item.dataset.label = fact.label;
 
 				list.appendChild(item);
 				return list;
