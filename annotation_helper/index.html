@@ -47,9 +47,14 @@
 
 </div>
 
-<script src="parse.js"></script>
+<script src="newseful-annotation-helper.js"></script>
 <script>
-	var annotations = new NFAnnotations(document.querySelector('.example-content'));
+	var opts = {
+		apiKey : 'pk.eyJ1Ijoia2V2aW56d2VlcmluayIsImEiOiJQS0ZwLVpZIn0.k5CgNEeEwLYeOFRz0SHWgA',
+		textElement : document.querySelector('.example-content')
+	} 
+
+	var annotations = new NFAnnotations(opts);
 </script>
 
 <script src="../assets/module-nav.js"></script>

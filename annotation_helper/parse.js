@@ -1,4 +1,4 @@
-var NFAnnotations = function(selector) {
+var NFAnnotations = function(selector, opts) {
 
 	/////////////////////////////////////////////////////////////////
 
@@ -11,6 +11,8 @@ var NFAnnotations = function(selector) {
 	this.closingExpression = '))';
 
 	this.reservedKeywords = ['name','title','description','location','image'];
+
+	this.apiKey = opts.apiKey || null;
 
 
 	/////////////////////////////////////////////////////////////////
@@ -99,7 +101,6 @@ var NFAnnotations = function(selector) {
 	this.parseExpression = function(str) {
 		var cut = this.cut(str);
 		var snip = cut.map(this.keysAndValues)
-		console.log(this.json(snip));
 		return this.json(snip);
 	}
 
@@ -261,26 +262,28 @@ var NFAnnotations = function(selector) {
 	/////////////////////////////////////////////////////////////////
 
 	this.requestMapForElement = function(el) {
+		if (this.apiKey == null)
+			return;
+
 		var location = el.dataset.location;
+		var that = this;
 
 		var request = new XMLHttpRequest();
-		request.open('GET', 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/'+location+'.json?access_token=pk.eyJ1Ijoia2V2aW56d2VlcmluayIsImEiOiJQS0ZwLVpZIn0.k5CgNEeEwLYeOFRz0SHWgA', true);
+		request.open('GET', 'http://api.tiles.mapbox.com/v4/geocode/mapbox.places/'+location+'.json?access_token=' + this.apiKey, true);
 
 		request.onload = function() {
 		  if (request.status >= 200 && request.status < 400) {
 		    var resp = JSON.parse(request.responseText);
 		    var center = resp.features[0].center;
-		    var imgSrc = 'http://api.tiles.mapbox.com/v4/kevinzweerink.eb9ec811/' + center[0] +','+ center[1] +',5/300x150.jpg?access_token=pk.eyJ1Ijoia2V2aW56d2VlcmluayIsImEiOiJQS0ZwLVpZIn0.k5CgNEeEwLYeOFRz0SHWgA';
+		    var imgSrc = 'http://api.tiles.mapbox.com/v4/kevinzweerink.eb9ec811/' + center[0] +','+ center[1] +',5/300x150.jpg?access_token=' + that.apiKey;
 		    el.setAttribute('src', imgSrc);
 		  } else {
-		    console.log('hmm error');
 		    var imgSrc = '#';
 		    el.setAttribute('src', imgSrc);
 		  }
 		};
 
 		request.onerror = function() {
-		  console.log('connection error');
 		  var imgSrc = '#'
 		  el.setAttribute('src', imgSrc);
 		};
@@ -289,7 +292,7 @@ var NFAnnotations = function(selector) {
 	}
 
 	this.prep = function(selector) {
-		selector.querySelectorAll('.newseful-annotation__location-map').map(this.requestMapForElement);
+		selector.querySelectorAll('.newseful-annotation__location-map').map(this.requestMapForElement.bind(this));
 	}
 
 	this.listen = function(selector) {

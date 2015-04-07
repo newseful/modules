@@ -19,8 +19,9 @@
 			overflow: hidden;
 		}
 
-		#timeline-container, #timeline-container-2 {
+		#timeline-container, #second-timeline-container {
 			padding: 5rem 0;
+			overflow: hidden;
 		}
 
 		body {
@@ -60,27 +61,28 @@
 
 </div>
 
-<script src="main.js"></script>
+<script>
+window.sonyHackData = {"_id":"551b1ab8a1caac71e8c44de5","name":"Sony Hack","__v":10,"reactions":[{"time":"2014-12-06T05:00:00.000Z","source":"Fusion","text":"Fusion reveals striking pay discrepancies found in released data","_id":"551b1c87017dbf4ee963a251"},{"time":"2014-12-01T05:00:00.000Z","source":"News Media","text":"Suspicions arise that North Korean government may be behind the attack","_id":"551b1bec017dbf4ee963a24d"}],"events":[{"time":"2014-12-08T05:00:00.000Z","text":"North Korea calls the work of the GOP 'righteous' but continues to deny involvement","_id":"551b1cb4017dbf4ee963a252"},{"time":"2014-12-04T05:00:00.000Z","text":"North Korea officially denies involvement in the attack","_id":"551b1c5a017dbf4ee963a250"},{"time":"2014-12-03T05:00:00.000Z","text":"GOP uses PSN to spread huge amounts of private Sony data","_id":"551b1c33017dbf4ee963a24f"},{"time":"2014-12-02T05:00:00.000Z","text":"FBI begins investigation into North Korean involvement","_id":"551b1c0b017dbf4ee963a24e"},{"time":"2014-12-01T05:00:00.000Z","text":"Key seasonal and awards titles are released online by hackers","_id":"551b1bc6017dbf4ee963a24c"},{"time":"2014-11-24T05:00:00.000Z","text":"Sources within Sony report hack and blackmail by a group called the Guardians of Peace","_id":"551b1b87017dbf4ee963a24b"}]}
+</script>
+
+<script src="newseful-timeline.js"></script>
 <script>
 
 var opts = {
 	container : document.querySelector('#timeline-container'),
 	numTicksPerSegment : 10,
-	ticks: true
+	ticks: true,
+	dataURL : 'https://docs.google.com/spreadsheets/d/1Tlcgk8CrZrx-4XnVlirEO2eRYwNbk5B96Rkv879VGZ8/pubhtml?gid=0&single=true'
 }
 
-var data = 'https://docs.google.com/spreadsheets/d/1Tlcgk8CrZrx-4XnVlirEO2eRYwNbk5B96Rkv879VGZ8/pubhtml?gid=0&single=true'
+var timeline = new NFTimelineView(opts);
 
-var timeline = new NFTimelineView(opts, data);
-
-var opts2 = {
+opts = {
 	container : document.querySelector('#second-timeline-container'),
-	ticks : false,
-}
+	data : sonyHackData
+};
 
-var data2 = 'https://docs.google.com/spreadsheets/d/16gTvMe5LJUJ1KBxIc4wBUIObwUTZvUOPav-V50nKR5I/pubhtml';
-
-var timeline2 = new NFTimelineView(opts2, data2);
+var secondTimeline = new NFTimelineView(opts);
 
 </script>
 

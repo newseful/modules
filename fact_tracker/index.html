@@ -47,12 +47,15 @@
 
 </div>
 
-<script src="fact_check.js"></script>
+<script src="newseful-fact-check.js"></script>
 
 <script>
-	var factCheck = new NFFactCheck();
-	factCheck.inline(document.querySelector('.content'));
-	factCheck.renderFactsModule(document.querySelector('.content'));
+	var opts = {
+		showList : true,
+		textElement : document.querySelector('.content')
+	}
+
+	var factCheck = new NFFactCheck(opts);
 </script>
 
 <script src="../assets/module-nav.js"></script>
